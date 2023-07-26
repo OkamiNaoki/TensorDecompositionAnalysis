@@ -21,6 +21,7 @@ def spaceRowHeatDifOut(t0, t1, folder_name):
     # 画像ファイルとしてヒートマップを保存
     plt.savefig(os.path.join(folder_name, f'heatmap_{len(os.listdir(folder_name))}.png'))
     plt.close()
+    return ab
 
 # 結果を保存するフォルダーの名前を指定
 result_folder = 'result'
@@ -31,18 +32,18 @@ b1_list = [np.load(f'tensor_decomposition_b1_{i}.npy') for i in range(3)]
 b2_list = [np.load(f'tensor_decomposition_b2_{i}.npy') for i in range(3)]
 b3_list = [np.load(f'tensor_decomposition_b3_{i}.npy') for i in range(3)]
 
-# spaceRowHeatDifOut関数を実行し、結果を保存
+# Create an empty list to store the results
+results = []
 
-spaceRowHeatDifOut(b0_list, b1_list, result_folder)
+# Call spaceRowHeatDifOut function for each pair of tensors and store the results
+results.append(spaceRowHeatDifOut(b0_list, b1_list, result_folder))
+results.append(spaceRowHeatDifOut(b0_list, b2_list, result_folder))
+results.append(spaceRowHeatDifOut(b0_list, b3_list, result_folder))
+results.append(spaceRowHeatDifOut(b1_list, b2_list, result_folder))
+results.append(spaceRowHeatDifOut(b1_list, b3_list, result_folder))
+results.append(spaceRowHeatDifOut(b2_list, b3_list, result_folder))
 
-spaceRowHeatDifOut(b0_list, b2_list, result_folder)
-
-spaceRowHeatDifOut(b0_list, b3_list, result_folder)
-
-spaceRowHeatDifOut(b1_list, b2_list, result_folder)
-
-spaceRowHeatDifOut(b1_list, b3_list, result_folder)
-
-spaceRowHeatDifOut(b2_list, b3_list, result_folder)
+# Save the results list as a numpy array
+np.save(os.path.join(result_folder, 'results.npy'), np.array(results))
 
 plt.show()

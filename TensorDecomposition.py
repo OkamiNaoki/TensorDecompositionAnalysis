@@ -97,3 +97,28 @@ for i, item in enumerate(b2):
 
 for i, item in enumerate(b3):
     np.save(f'tensor_decomposition_b3_{i}.npy', np.array(item))
+
+
+c1 = np.zeros((rl1*rl2*rl3))
+c2 = np.zeros((rl1*rl2*rl3))
+c3 = np.zeros((rl1*rl2*rl3))
+c4 = np.zeros((rl1*rl2*rl3))
+count = 0
+mem = []
+
+for i in range(0, rl1):
+    for j in range(0, rl2):
+        for k in range(0, rl3):
+            mem.append(str(i) + str(j) + str(k))
+            c1[count] = a0[i, j, k]
+            c2[count] = a1[i, j, k]
+            c3[count] = a2[i, j, k]
+            c4[count] = a3[i, j, k]
+            count += 1
+
+# Save the arrays as .npy files
+np.save('c1.npy', c1)
+np.save('c2.npy', c2)
+np.save('c3.npy', c3)
+np.save('c4.npy', c4)
+np.save('mem.npy',mem)
